@@ -1,0 +1,249 @@
+@import url('https://fonts.googleapis.com/css2?family=Jersey+10&display=swap');
+
+/* ============================================ */
+/*  REPO FOR THAT — PIXEL ART DESIGN SYSTEM    */
+/* ============================================ */
+
+:root {
+  --bg: #FFFFFF;
+  --fg: #0000FF;
+  --bg-inv: #0000FF;
+  --fg-inv: #FFFFFF;
+}
+
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --fg: #0000FF;
+  --bg-inv: #0000FF;
+  --fg-inv: #000000;
+}
+
+/* Global Reset */
+* {
+  font-family: "Jersey 10", sans-serif !important;
+  font-weight: 400;
+  font-style: normal;
+  border-radius: 0 !important;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: auto;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg);
+  color: var(--fg);
+  position: relative;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* Pixel Dot Grid Overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--fg) 1px, transparent 1px);
+  background-size: 16px 16px;
+  opacity: 0.07;
+  pointer-events: none;
+  z-index: 0;
+}
+
+:root[data-theme="dark"] body::before {
+  opacity: 0.12;
+}
+
+/* Scanline Overlay */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 3px,
+    var(--fg) 3px,
+    var(--fg) 4px
+  );
+  opacity: 0.03;
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* Custom Pixel Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--fg);
+}
+
+/* Interactive Cursor */
+button, a, input[type="submit"], [role="button"], .clickable {
+  cursor: crosshair;
+}
+
+/* Image Rendering */
+img, canvas, svg {
+  image-rendering: pixelated;
+}
+
+/* ============================================ */
+/*  ANIMATIONS — ALL use steps()               */
+/* ============================================ */
+
+@keyframes pixel-float {
+  0%   { transform: translateY(0px); }
+  50%  { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+@keyframes pixel-blink {
+  0%, 49% { opacity: 1; }
+  50%, 100% { opacity: 0; }
+}
+
+@keyframes pixel-glitch {
+  0%   { transform: translateX(0); }
+  25%  { transform: translateX(-2px); }
+  50%  { transform: translateX(2px); }
+  75%  { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
+}
+
+@keyframes pixel-press {
+  0%   { transform: translate(0, 0); box-shadow: 4px 4px 0px var(--fg); }
+  100% { transform: translate(4px, 4px); box-shadow: none; }
+}
+
+/* ============================================ */
+/*  PIXEL BUTTON BASE                          */
+/* ============================================ */
+
+.pixel-btn {
+  background: var(--bg);
+  color: var(--fg);
+  border: 2px solid var(--fg);
+  box-shadow: 4px 4px 0px var(--fg);
+  padding: 8px 20px;
+  font-size: 18px;
+  cursor: crosshair;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: transform 0s steps(1), box-shadow 0s steps(1);
+  user-select: none;
+}
+
+.pixel-btn:hover {
+  transform: translate(2px, 2px);
+  box-shadow: 2px 2px 0px var(--fg);
+}
+
+.pixel-btn:active {
+  transform: translate(4px, 4px);
+  box-shadow: none;
+}
+
+.pixel-btn-inv {
+  background: var(--fg);
+  color: var(--bg);
+  border: 2px solid var(--bg);
+  box-shadow: 4px 4px 0px rgba(255,255,255,0.3);
+}
+
+.pixel-btn-inv:hover {
+  box-shadow: 2px 2px 0px rgba(255,255,255,0.3);
+}
+
+.pixel-btn-inv:active {
+  box-shadow: none;
+}
+
+/* ============================================ */
+/*  PIXEL INPUT                                */
+/* ============================================ */
+
+.pixel-input {
+  background: transparent;
+  color: inherit;
+  border: 2px solid currentColor;
+  padding: 8px 12px;
+  font-size: 18px;
+  outline: none;
+}
+
+.pixel-input::placeholder {
+  color: inherit;
+  opacity: 0.5;
+}
+
+.pixel-input:focus {
+  box-shadow: inset 0 0 0 2px currentColor;
+}
+
+/* ============================================ */
+/*  SPRITE CONTAINER                           */
+/* ============================================ */
+
+.sprite {
+  position: absolute;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.sprite-float {
+  animation: pixel-float 2s steps(4, end) infinite;
+}
+
+/* ============================================ */
+/*  CONTENT WRAPPER                            */
+/* ============================================ */
+
+.content-wrapper {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.full-width {
+  max-width: 100%;
+  padding: 0;
+}
+
+/* ============================================ */
+/*  RESPONSIVE                                 */
+/* ============================================ */
+
+@media (max-width: 768px) {
+  .content-wrapper {
+    padding: 0 12px;
+  }
+}
+
+/* No smooth transitions - pixel snappy only */
+a {
+  color: var(--fg);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Selection color */
+::selection {
+  background: var(--fg);
+  color: var(--bg);
+}
