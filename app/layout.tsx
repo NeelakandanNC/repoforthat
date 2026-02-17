@@ -13,6 +13,9 @@ export const metadata: Metadata = {
     "developer tools",
     "curated",
   ],
+  icons: {
+    icon: "/favicon.png",
+  },
 };
 
 export default function RootLayout({
