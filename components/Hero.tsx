@@ -151,7 +151,7 @@ export default function Hero() {
                                         whiteSpace: "nowrap",
                                     }}
                                 >
-                                    GET REPOS — FREE
+                                    GET UPDATES AND LOT MORE
                                 </span>
                                 <form
                                     onSubmit={handleSubmit}
