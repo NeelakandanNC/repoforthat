@@ -3,9 +3,9 @@
 import { useState, useCallback } from "react";
 import { Repo, Category } from "@/db/schema";
 import Hero from "@/components/Hero";
-import FloatingSprites from "@/components/FloatingSprites";
-import PixelDivider from "@/components/PixelDivider";
-import SubscribeBar from "@/components/SubscribeBar";
+
+
+
 import FilterBar from "@/components/FilterBar";
 import RepoTable from "@/components/RepoTable";
 import LoadMoreButton from "@/components/LoadMoreButton";
@@ -81,26 +81,22 @@ export default function HomeClient({
 
     return (
         <>
-            <FloatingSprites />
 
             <Hero />
-            <PixelDivider />
-            <SubscribeBar />
-            <PixelDivider />
             <FilterBar
                 categories={categories}
                 activeCategory={activeCategory}
                 onCategoryChange={handleCategoryChange}
                 onSearch={handleSearch}
             />
-            <PixelDivider />
+
             <RepoTable repos={reposList} categories={categories} />
             <LoadMoreButton
                 onClick={handleLoadMore}
                 loading={loading}
                 hasMore={hasMore}
             />
-            <PixelDivider />
+
 
             {/* Footer */}
             <footer

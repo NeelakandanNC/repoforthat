@@ -33,7 +33,7 @@ export default function SubscribeBar() {
         <section
             style={{
                 background: "var(--fg)",
-                padding: "24px 20px",
+                padding: "12px 20px",
                 position: "relative",
                 zIndex: 1,
             }}
