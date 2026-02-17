@@ -1,7 +1,6 @@
 "use client";
 
 import { Repo, Category } from "@/db/schema";
-import { formatStars } from "@/lib/utils";
 import CategoryIcon from "./CategoryIcon";
 import { useState } from "react";
 
@@ -62,7 +61,7 @@ export default function RepoTable({ repos, categories }: RepoTableProps) {
                             <th style={{ ...thStyle, textAlign: "left" }}>NAME</th>
                             <th style={{ ...thStyle, textAlign: "left" }}>DESCRIPTION</th>
                             <th style={thStyle}>CATEGORY</th>
-                            <th style={{ ...thStyle, textAlign: "right" }}>★ STARS</th>
+
                         </tr>
                     </thead>
                     <tbody>
@@ -132,9 +131,7 @@ export default function RepoTable({ repos, categories }: RepoTableProps) {
                                             {getCategoryLabel(repo.category).toUpperCase()}
                                         </span>
                                     </td>
-                                    <td style={{ ...tdStyle, textAlign: "right", whiteSpace: "nowrap" }}>
-                                        <span style={{ fontSize: 20 }}>★ {formatStars(repo.stars)}</span>
-                                    </td>
+
                                 </tr>
                             );
                         })}

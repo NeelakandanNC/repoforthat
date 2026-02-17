@@ -122,7 +122,7 @@ export default function HomeClient({
                         opacity: 0.6,
                     }}
                 >
-                    CURATED WITH ★ FOR DEVELOPERS EVERYWHERE
+                    LONG LIVE FOSS
                 </p>
             </footer>
         </>
