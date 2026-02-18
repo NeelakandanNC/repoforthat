@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 export default async function Home() {
   // SSR: Fetch initial 25 repos and all categories
   const [initialRepos, allCategories] = await Promise.all([
-    db.select().from(repos).orderBy(desc(repos.stars)).limit(25),
+    db.select().from(repos).orderBy(desc(repos.createdAt)).limit(25),
     db.select().from(categories),
   ]);
 

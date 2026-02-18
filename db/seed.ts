@@ -21,6 +21,13 @@ const seedCategories = [
   { slug: "security", label: "Security", icon: "lock" },
   { slug: "data-engineering", label: "Data Engineering", icon: "chart" },
   { slug: "observability", label: "Observability", icon: "eye" },
+  { slug: "finance", label: "Finance", icon: "dollar" },
+  { slug: "claude-code", label: "Claude Code", icon: "code" },
+  { slug: "hardware", label: "Hardware", icon: "cpu" },
+  { slug: "video", label: "Video", icon: "film" },
+  { slug: "data", label: "Data", icon: "database" },
+  { slug: "agentic-ai", label: "Agentic AI", icon: "spark" },
+  { slug: "health", label: "Health", icon: "heart" }
 ];
 
 const seedRepos = [
@@ -58,7 +65,33 @@ const seedRepos = [
   { name: "prometheus/prometheus", url: "https://github.com/prometheus/prometheus", category: "observability", stars: 56800, description: "The Prometheus monitoring system and time series database" },
   { name: "grafana/grafana", url: "https://github.com/grafana/grafana", category: "observability", stars: 65700, description: "The open and composable observability and data visualization platform" },
   { name: "getsentry/sentry", url: "https://github.com/getsentry/sentry", category: "observability", stars: 39800, description: "Developer-first error tracking and performance monitoring" },
-  { name: "ValueCell", url: "https://github.com/ValueCell-ai/valuecell", category: "finance", description: "A community-driven, multi-agent platform for financial applications." }
+  { name: "ValueCell", url: "https://github.com/ValueCell-ai/valuecell", category: "finance", description: "A community-driven, multi-agent platform for financial applications." },
+  { name: "likec4/likec4", url: "https://github.com/likec4/likec4", category: "dev-tools", description: "Software architecture with always actual and live diagrams from your code" },
+  { name: "lyogavin/airllm", url: "https://github.com/lyogavin/airllm", category: "dev-tools", description: "AirLLM 70B inference with single 4GB GPU" },
+  { name: "h9zdev/WireTapper", url: "https://github.com/h9zdev/WireTapper", category: "hardware", description: "Wireless OSINT & Signal Intelligence Platform" },
+  { name: "timoncool/videosos", url: "https://github.com/timoncool/videosos", category: "video", description: "Open-Source AI Video Editor with 100+ Models" },
+  { name: "schelskedevco/ignidash", url: "https://github.com/schelskedevco/ignidash", category: "finance", description: "AI-powered platform for planning long-term personal finances" },
+  { name: "Roboparty/roboto_origin", url: "https://github.com/Roboparty/roboto_origin", category: "hardware", description: "Fully Open-Source DIY Humanoid Robot" },
+  { name: "robot-learning-co/trlc-dk1", url: "https://github.com/robot-learning-co/trlc-dk1", category: "hardware", description: "An Open Source Dev Kit for AI-native Robotics" },
+  { name: "Fincept-Corporation/FinceptTerminal", url: "https://github.com/Fincept-Corporation/FinceptTerminal", category: "finance", description: "Financial intelligence platform with CFA-level analytics, AI automation" },
+  { name: "nyldn/claude-octopus", url: "https://github.com/nyldn/claude-octopus", category: "claude-code", description: "Multi-tentacled orchestrator for Claude Code" },
+  { name: "Prat011/awesome-llm-skills", url: "https://github.com/Prat011/awesome-llm-skills", category: "cli-tools", description: "List of Skills, resources, and tools for customizing AI workflows" },
+  { name: "koala73/worldmonitor", url: "https://github.com/koala73/worldmonitor", category: "data", description: "News aggregation, geopolitical monitoring, and infrastructure tracking" },
+  { name: "theNetworkChuck/claude-phone", url: "https://github.com/theNetworkChuck/claude-phone", category: "claude-code", description: "Voice interface for Claude Code via SIP/3CX" },
+  { name: "FareedKhan-dev/production-grade-agentic-system", url: "https://github.com/FareedKhan-dev/production-grade-agentic-system", category: "agentic-ai", description: "Production-Grade Agentic AI System" },
+  { name: "BrianRWagner/ai-marketing-skills", url: "https://github.com/BrianRWagner/ai-marketing-skills", category: "claude-code", description: "Marketing frameworks for Claude Code" },
+  { name: "informatici/openhospital", url: "https://github.com/informatici/openhospital", category: "health", description: "Health Information Management System" },
+  { name: "L1AD/claude-task-viewer", url: "https://github.com/L1AD/claude-task-viewer", category: "claude-code", description: "A real-time Kanban board for observing Claude Code tasks" },
+  { name: "elliot35/deterministic-agent-control-protocol", url: "https://github.com/elliot35/deterministic-agent-control-protocol", category: "agentic-ai", description: "A governance gateway for AI agents" },
+  { name: "EvoAgentX/Awesome-Self-Evolving-Agents", url: "https://github.com/EvoAgentX/Awesome-Self-Evolving-Agents", category: "agentic-ai", description: "A New Paradigm Bridging Foundation Models and Lifelong Agentic Systems" },
+  { name: "grikdotnet/ai-stenographer", url: "https://github.com/grikdotnet/ai-stenographer", category: "productivity", description: "A desktop speech recognition application" },
+  { name: "ancoleman/ai-design-components", url: "https://github.com/ancoleman/ai-design-components", category: "claude-code", description: "Full Stack development skills" },
+  { name: "sickn33/antigravity-awesome-skills", url: "https://github.com/sickn33/antigravity-awesome-skills", category: "cli-tools", description: "The Ultimate Collection of 800+ Agentic Skills" },
+  { name: "OpenCoworkAI/open-cowork", url: "https://github.com/OpenCoworkAI/open-cowork", category: "productivity", description: "Your Personal AI Agent Desktop App" },
+  { name: "ognjengt/founder-skills", url: "https://github.com/ognjengt/founder-skills", category: "claude-code", description: "Skills that turn Claude into a Fortune 500 growth team" },
+  { name: "virattt/dexter", url: "https://github.com/virattt/dexter", category: "finance", description: "An autonomous agent for deep financial research" },
+  { name: "commaai/openpilot", url: "https://github.com/commaai/openpilot", category: "hardware", description: "Operating system for robotics" },
+  { name: "The-Swarm-Corporation/AutoHedge", url: "https://github.com/The-Swarm-Corporation/AutoHedge", category: "finance", description: "Agent hedge fund that trades on your behalf" }
 ];
 
 async function seed() {

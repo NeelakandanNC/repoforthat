@@ -137,6 +137,97 @@ export default function CategoryIcon({ icon, size = 16 }: { icon: string; size?:
                 <rect x="2" y="6" width="4" height="1" fill={color} />
             </svg>
         ),
+        dollar: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="3" y="0" width="2" height="1" fill={color} />
+                <rect x="1" y="1" width="6" height="1" fill={color} />
+                <rect x="1" y="2" width="2" height="1" fill={color} />
+                <rect x="2" y="3" width="4" height="1" fill={color} />
+                <rect x="5" y="4" width="2" height="1" fill={color} />
+                <rect x="1" y="5" width="6" height="1" fill={color} />
+                <rect x="3" y="6" width="2" height="1" fill={color} />
+            </svg>
+        ),
+        code: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="2" y="1" width="1" height="1" fill={color} />
+                <rect x="1" y="2" width="1" height="1" fill={color} />
+                <rect x="0" y="3" width="1" height="2" fill={color} />
+                <rect x="1" y="5" width="1" height="1" fill={color} />
+                <rect x="2" y="6" width="1" height="1" fill={color} />
+                <rect x="5" y="1" width="1" height="1" fill={color} />
+                <rect x="6" y="2" width="1" height="1" fill={color} />
+                <rect x="7" y="3" width="1" height="2" fill={color} />
+                <rect x="6" y="5" width="1" height="1" fill={color} />
+                <rect x="5" y="6" width="1" height="1" fill={color} />
+            </svg>
+        ),
+        cpu: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="2" y="2" width="4" height="4" fill={color} />
+                <rect x="3" y="3" width="2" height="2" fill="var(--bg)" />
+                <rect x="3" y="0" width="1" height="2" fill={color} />
+                <rect x="5" y="0" width="1" height="2" fill={color} />
+                <rect x="3" y="6" width="1" height="2" fill={color} />
+                <rect x="5" y="6" width="1" height="2" fill={color} />
+                <rect x="0" y="3" width="2" height="1" fill={color} />
+                <rect x="0" y="5" width="2" height="1" fill={color} />
+                <rect x="6" y="3" width="2" height="1" fill={color} />
+                <rect x="6" y="5" width="2" height="1" fill={color} />
+            </svg>
+        ),
+        film: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="0" y="0" width="8" height="8" fill={color} />
+                <rect x="0" y="0" width="1" height="1" fill="var(--bg)" />
+                <rect x="0" y="2" width="1" height="1" fill="var(--bg)" />
+                <rect x="0" y="4" width="1" height="1" fill="var(--bg)" />
+                <rect x="0" y="6" width="1" height="1" fill="var(--bg)" />
+                <rect x="7" y="0" width="1" height="1" fill="var(--bg)" />
+                <rect x="7" y="2" width="1" height="1" fill="var(--bg)" />
+                <rect x="7" y="4" width="1" height="1" fill="var(--bg)" />
+                <rect x="7" y="6" width="1" height="1" fill="var(--bg)" />
+                <rect x="2" y="2" width="4" height="4" fill="var(--bg)" />
+            </svg>
+        ),
+        database: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="1" y="0" width="6" height="1" fill={color} />
+                <rect x="0" y="1" width="8" height="1" fill={color} />
+                <rect x="1" y="2" width="6" height="1" fill={color} />
+                <rect x="2" y="3" width="4" height="1" fill={color} />
+                <rect x="1" y="4" width="6" height="1" fill={color} />
+                <rect x="0" y="5" width="8" height="1" fill={color} />
+                <rect x="1" y="6" width="6" height="1" fill={color} />
+                <rect x="2" y="7" width="4" height="1" fill={color} />
+            </svg>
+        ),
+        spark: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="3" y="0" width="2" height="1" fill={color} />
+                <rect x="3" y="1" width="2" height="1" fill={color} />
+                <rect x="0" y="3" width="1" height="2" fill={color} />
+                <rect x="1" y="3" width="1" height="2" fill={color} />
+                <rect x="2" y="2" width="4" height="4" fill={color} />
+                <rect x="3" y="3" width="2" height="2" fill="var(--bg)" />
+                <rect x="6" y="3" width="1" height="2" fill={color} />
+                <rect x="7" y="3" width="1" height="2" fill={color} />
+                <rect x="3" y="6" width="2" height="1" fill={color} />
+                <rect x="3" y="7" width="2" height="1" fill={color} />
+            </svg>
+        ),
+        heart: (
+            <svg width={size} height={size} viewBox="0 0 8 8" style={{ imageRendering: "pixelated" }}>
+                <rect x="1" y="1" width="2" height="1" fill={color} />
+                <rect x="5" y="1" width="2" height="1" fill={color} />
+                <rect x="0" y="2" width="4" height="1" fill={color} />
+                <rect x="4" y="2" width="4" height="1" fill={color} />
+                <rect x="0" y="3" width="8" height="1" fill={color} />
+                <rect x="1" y="4" width="6" height="1" fill={color} />
+                <rect x="2" y="5" width="4" height="1" fill={color} />
+                <rect x="3" y="6" width="2" height="1" fill={color} />
+            </svg>
+        ),
     };
 
     return icons[icon] || <span>■</span>;

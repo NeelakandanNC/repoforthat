@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
             .select()
             .from(repos)
             .where(where)
-            .orderBy(desc(repos.stars))
+            .orderBy(desc(repos.createdAt))
             .limit(limit)
             .offset(offset),
         db
