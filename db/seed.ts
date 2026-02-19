@@ -91,7 +91,17 @@ const seedRepos = [
   { name: "ognjengt/founder-skills", url: "https://github.com/ognjengt/founder-skills", category: "claude-code", description: "Skills that turn Claude into a Fortune 500 growth team" },
   { name: "virattt/dexter", url: "https://github.com/virattt/dexter", category: "finance", description: "An autonomous agent for deep financial research" },
   { name: "commaai/openpilot", url: "https://github.com/commaai/openpilot", category: "hardware", description: "Operating system for robotics" },
-  { name: "The-Swarm-Corporation/AutoHedge", url: "https://github.com/The-Swarm-Corporation/AutoHedge", category: "finance", description: "Agent hedge fund that trades on your behalf" }
+  { name: "The-Swarm-Corporation/AutoHedge", url: "https://github.com/The-Swarm-Corporation/AutoHedge", category: "finance", description: "Agent hedge fund that trades on your behalf" },
+  { name: "stack-auth/stack-auth", url: "https://github.com/stack-auth/stack-auth", category: "dev-tools", description: "Open-source Auth0/Clerk alternative" },
+  { name: "zappzerapp/laravel-ingest", url: "https://github.com/zappzerapp/laravel-ingest", category: "dev-tools", description: "A robust, configuration-driven ETL and data import framework for Laravel" },
+  { name: "kangtastic/timestation", url: "https://github.com/kangtastic/timestation", category: "hardware", description: "Synchronize most radio-controlled (\"atomic\") clocks and watches using almost any phone or tablet" },
+  { name: "ygwyg/MAHORAGA", url: "https://github.com/ygwyg/MAHORAGA", category: "finance", description: "Trading agent powered by social sentiment analysis" },
+  { name: "0xSero/parchi", url: "https://github.com/0xSero/parchi", category: "ai-agents", description: "Your AI-powered browser copilot" },
+  { name: "ParasSharma2306/obsidian", url: "https://github.com/ParasSharma2306/obsidian", category: "data", description: "WhatsApp exports viewer" },
+  { name: "addyosmani/video-compress", url: "https://github.com/addyosmani/video-compress", category: "video", description: "Video compression in the browser using FFMPEG.wasm" },
+  { name: "vxcontrol/pentagi", url: "https://github.com/vxcontrol/pentagi", category: "security", description: "Penetration testing Artificial General Intelligence" },
+  { name: "adolfousier/whispercrabs", url: "https://github.com/adolfousier/whispercrabs", category: "productivity", description: "Floating recording button, click, and transcribe to input" },
+  { name: "jupyter-naas/abi", url: "https://github.com/jupyter-naas/abi", category: "ai-agents", description: "Multi-agent AI Operating System with semantic knowledge graphs, ontology-driven reasoning, and intelligent workflow automation" }
 ];
 
 async function seed() {
