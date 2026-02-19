@@ -28,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="light" suppressHydrationWarning>
       <head>
+        <meta name="saashub-verification" content="ntmpzu7k2mjn" />
         <Script
           async
           src="https://www.googletagmanager.com/gtag/js?id=G-Y7318FXKM2"
