@@ -123,6 +123,21 @@ export default function Hero() {
                             }}
                         />
                     </a>
+                    <a
+                        href="https://acidtools.com"
+                        target="_blank"
+                        rel="noopener"
+                        style={{ display: "flex", alignItems: "center" }}
+                    >
+                        <img
+                            src="https://acidtools.com/assets/images/badge.png"
+                            height="54"
+                            alt="Acid Tools"
+                            loading="lazy"
+                            decoding="async"
+                            style={{ height: 45 }}
+                        />
+                    </a>
                 </div>
 
                 {/* Subtitle + Subscribe — same line */}

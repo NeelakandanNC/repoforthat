@@ -27,7 +27,8 @@ const seedCategories = [
   { slug: "video", label: "Video", icon: "film" },
   { slug: "data", label: "Data", icon: "database" },
   { slug: "agentic-ai", label: "Agentic AI", icon: "spark" },
-  { slug: "health", label: "Health", icon: "heart" }
+  { slug: "health", label: "Health", icon: "heart" },
+  { slug: "messaging", label: "Messaging", icon: "mail" }
 ];
 
 const seedRepos = [
@@ -101,7 +102,17 @@ const seedRepos = [
   { name: "addyosmani/video-compress", url: "https://github.com/addyosmani/video-compress", category: "video", description: "Video compression in the browser using FFMPEG.wasm" },
   { name: "vxcontrol/pentagi", url: "https://github.com/vxcontrol/pentagi", category: "security", description: "Penetration testing Artificial General Intelligence" },
   { name: "adolfousier/whispercrabs", url: "https://github.com/adolfousier/whispercrabs", category: "productivity", description: "Floating recording button, click, and transcribe to input" },
-  { name: "jupyter-naas/abi", url: "https://github.com/jupyter-naas/abi", category: "ai-agents", description: "Multi-agent AI Operating System with semantic knowledge graphs, ontology-driven reasoning, and intelligent workflow automation" }
+  { name: "jupyter-naas/abi", url: "https://github.com/jupyter-naas/abi", category: "ai-agents", description: "Multi-agent AI Operating System with semantic knowledge graphs, ontology-driven reasoning, and intelligent workflow automation" },
+  { name: "blader/Claudeception", url: "https://github.com/blader/Claudeception", category: "claude-code", description: "Autonomous skill extraction and continuous learning for Claude Code" },
+  { name: "jitsucom/jitsu", url: "https://github.com/jitsucom/jitsu", category: "databases", description: "Fully-scriptable data ingestion engine for modern data teams" },
+  { name: "zane-ops/zane-ops", url: "https://github.com/zane-ops/zane-ops", category: "dev-tools", description: "Self-hosted PaaS for deploying and managing web apps, databases, static websites and more" },
+  { name: "Dammyjay93/interface-design", url: "https://github.com/Dammyjay93/interface-design", category: "claude-code", description: "Design engineering for Claude Code" },
+  { name: "CorentinTh/enclosed", url: "https://github.com/CorentinTh/enclosed", category: "messaging", description: "Minimalistic web app designed for sending private and secure notes" },
+  { name: "traceloop/openllmetry", url: "https://github.com/traceloop/openllmetry", category: "dev-tools", description: "Open-source observability for your GenAI or LLM application, based on OpenTelemetry" },
+  { name: "CanineHQ/canine", url: "https://github.com/CanineHQ/canine", category: "dev-tools", description: "A developer friendly PaaS for your Kubernetes" },
+  { name: "ImpulseAdventure/GUIslice-Builder", url: "https://github.com/ImpulseAdventure/GUIslice-Builder", category: "dev-tools", description: "Cross-platform drag & drop GUI builder for GUIslice" },
+  { name: "ghostsecurity/skills", url: "https://github.com/ghostsecurity/skills", category: "cli-tools", description: "Ghost Security's collection of AppSec skills for AI coding agents" },
+  { name: "Jerry23011/VirusTotal-macOS", url: "https://github.com/Jerry23011/VirusTotal-macOS", category: "security", description: "Elegant VirusTotal client built with SwiftUI" }
 ];
 
 async function seed() {
