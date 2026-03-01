@@ -303,7 +303,7 @@ export default function Hero() {
                                             border: "2px solid var(--bg)",
                                             padding: "4px 12px",
                                             fontSize: 14,
-                                            cursor: "crosshair",
+                                            cursor: "pointer",
                                             whiteSpace: "nowrap",
                                         }}
                                     >

@@ -92,7 +92,7 @@ a,
 input[type="submit"],
 [role="button"],
 .clickable {
-  cursor: crosshair;
+  cursor: pointer;
 }
 
 /* Image Rendering */
@@ -178,7 +178,7 @@ svg {
   box-shadow: 4px 4px 0px var(--fg);
   padding: 8px 20px;
   font-size: 18px;
-  cursor: crosshair;
+  cursor: pointer;
   text-transform: uppercase;
   letter-spacing: 1px;
   transition: transform 0s steps(1), box-shadow 0s steps(1);

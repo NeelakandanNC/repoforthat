@@ -7,9 +7,18 @@ import { useState } from "react";
 interface RepoTableProps {
     repos: Repo[];
     categories: Category[];
+    user?: any;
+    bookmarkedIds?: Set<number>;
+    onToggleBookmark?: (id: number) => void;
 }
 
-export default function RepoTable({ repos, categories }: RepoTableProps) {
+export default function RepoTable({
+    repos,
+    categories,
+    user,
+    bookmarkedIds,
+    onToggleBookmark,
+}: RepoTableProps) {
     const [hoveredRow, setHoveredRow] = useState<number | null>(null);
 
     const getCategoryIcon = (categorySlug: string): string => {
@@ -61,7 +70,7 @@ export default function RepoTable({ repos, categories }: RepoTableProps) {
                             <th style={{ ...thStyle, textAlign: "left" }}>NAME</th>
                             <th style={{ ...thStyle, textAlign: "left" }}>DESCRIPTION</th>
                             <th style={thStyle}>CATEGORY</th>
-
+                            {user && <th style={thStyle}>SAVED</th>}
                         </tr>
                     </thead>
                     <tbody>
@@ -76,7 +85,7 @@ export default function RepoTable({ repos, categories }: RepoTableProps) {
                                         background: isHovered ? "var(--fg)" : "transparent",
                                         color: isHovered ? "var(--bg)" : "var(--fg)",
                                         borderBottom: "1px solid var(--fg)",
-                                        cursor: "crosshair",
+                                        cursor: "pointer",
                                         transition: "none",
                                     }}
                                 >
@@ -131,7 +140,28 @@ export default function RepoTable({ repos, categories }: RepoTableProps) {
                                             {getCategoryLabel(repo.category).toUpperCase()}
                                         </span>
                                     </td>
-
+                                    {user && (
+                                        <td style={{ ...tdStyle, textAlign: "center" }}>
+                                            <button
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    onToggleBookmark?.(repo.id);
+                                                }}
+                                                style={{
+                                                    background: "none",
+                                                    border: "none",
+                                                    color: "inherit",
+                                                    fontSize: 24,
+                                                    cursor: "pointer",
+                                                    padding: "0 8px",
+                                                    lineHeight: 1,
+                                                }}
+                                                title={bookmarkedIds?.has(repo.id) ? "REMOVE FROM SAVED" : "SAVE FOR LATER"}
+                                            >
+                                                {bookmarkedIds?.has(repo.id) ? "★" : "☆"}
+                                            </button>
+                                        </td>
+                                    )}
                                 </tr>
                             );
                         })}

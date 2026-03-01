@@ -9,6 +9,9 @@ interface FilterBarProps {
     activeCategory: string | null;
     onCategoryChange: (slug: string | null) => void;
     onSearch: (query: string) => void;
+    user?: any;
+    showSavedOnly?: boolean;
+    onToggleSaved?: () => void;
 }
 
 export default function FilterBar({
@@ -16,6 +19,9 @@ export default function FilterBar({
     activeCategory,
     onCategoryChange,
     onSearch,
+    user,
+    showSavedOnly,
+    onToggleSaved,
 }: FilterBarProps) {
     const [searchValue, setSearchValue] = useState("");
     const timerRef = useRef<NodeJS.Timeout | null>(null);
@@ -61,7 +67,7 @@ export default function FilterBar({
                             transform: activeCategory === null ? "translate(3px, 3px)" : "none",
                             padding: "6px 14px",
                             fontSize: 16,
-                            cursor: "crosshair",
+                            cursor: "pointer",
                             whiteSpace: "nowrap",
                             display: "flex",
                             alignItems: "center",
@@ -94,7 +100,7 @@ export default function FilterBar({
                                         : "none",
                                 padding: "6px 14px",
                                 fontSize: 16,
-                                cursor: "crosshair",
+                                cursor: "pointer",
                                 whiteSpace: "nowrap",
                                 display: "flex",
                                 alignItems: "center",
@@ -108,8 +114,8 @@ export default function FilterBar({
                     ))}
                 </div>
 
-                {/* Search Input */}
-                <div style={{ marginTop: 12 }}>
+                {/* Search Input + Saved Toggle */}
+                <div style={{ marginTop: 12, display: "flex", gap: 12, flexWrap: "wrap", alignItems: "center" }}>
                     <input
                         type="text"
                         value={searchValue}
@@ -117,11 +123,34 @@ export default function FilterBar({
                         placeholder="SEARCH REPOS..."
                         className="pixel-input"
                         style={{
-                            width: "100%",
+                            flex: 1,
                             maxWidth: 400,
                             fontSize: 18,
                         }}
                     />
+
+                    {user && (
+                        <button
+                            onClick={onToggleSaved}
+                            className="pixel-btn"
+                            style={{
+                                background: showSavedOnly ? "var(--fg)" : "var(--bg)",
+                                color: showSavedOnly ? "var(--bg)" : "var(--fg)",
+                                border: "2px solid var(--fg)",
+                                boxShadow: showSavedOnly ? "none" : "3px 3px 0px var(--fg)",
+                                transform: showSavedOnly ? "translate(3px, 3px)" : "none",
+                                padding: "6px 16px",
+                                fontSize: 16,
+                                display: "flex",
+                                alignItems: "center",
+                                gap: 8,
+                                flexShrink: 0,
+                            }}
+                        >
+                            <span>{showSavedOnly ? "★" : "☆"}</span>
+                            SAVED
+                        </button>
+                    )}
                 </div>
             </div>
         </section>

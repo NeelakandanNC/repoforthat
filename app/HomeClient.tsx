@@ -1,10 +1,8 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useEffect, useMemo } from "react";
 import { Repo, Category } from "@/db/schema";
 import Hero from "@/components/Hero";
-
-
 
 import FilterBar from "@/components/FilterBar";
 import RepoTable from "@/components/RepoTable";
@@ -27,6 +25,56 @@ export default function HomeClient({
     const [loading, setLoading] = useState(false);
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [user, setUser] = useState<any>(null);
+    const [bookmarkedIds, setBookmarkedIds] = useState<Set<number>>(new Set());
+    const [showSavedOnly, setShowSavedOnly] = useState(false);
+
+    // Fetch user and bookmarks on mount
+    useEffect(() => {
+        fetch("/api/auth/me")
+            .then(res => res.json())
+            .then(data => {
+                if (data.user) {
+                    setUser(data.user);
+                    // Fetch bookmarks for this user
+                    fetch("/api/bookmarks")
+                        .then(res => res.json())
+                        .then(bookmarkData => {
+                            if (bookmarkData.bookmarks) {
+                                setBookmarkedIds(new Set(bookmarkData.bookmarks.map((b: any) => b.repoId)));
+                            }
+                        });
+                }
+            })
+            .catch(() => {});
+    }, []);
+
+    const toggleBookmark = async (repoId: number) => {
+        if (!user) return; // Should not happen as UI will hide it
+
+        try {
+            const res = await fetch("/api/bookmarks", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ repoId }),
+            });
+            const data = await res.json();
+            if (data.success) {
+                setBookmarkedIds(prev => {
+                    const next = new Set(prev);
+                    if (data.action === "added") next.add(repoId);
+                    else next.delete(repoId);
+                    return next;
+                });
+            }
+        } catch (err) {
+            console.error("Failed to toggle bookmark", err);
+        }
+    };
+
+    const handleToggleSaved = () => {
+        setShowSavedOnly(!showSavedOnly);
+    };
 
     const fetchRepos = useCallback(
         async (
@@ -79,6 +127,11 @@ export default function HomeClient({
         fetchRepos(1, activeCategory, query, false);
     };
 
+    const reposToDisplay = useMemo(() => {
+        if (!showSavedOnly) return reposList;
+        return reposList.filter(repo => bookmarkedIds.has(repo.id));
+    }, [reposList, showSavedOnly, bookmarkedIds]);
+
     return (
         <>
 
@@ -88,14 +141,25 @@ export default function HomeClient({
                 activeCategory={activeCategory}
                 onCategoryChange={handleCategoryChange}
                 onSearch={handleSearch}
+                user={user}
+                showSavedOnly={showSavedOnly}
+                onToggleSaved={handleToggleSaved}
             />
 
-            <RepoTable repos={reposList} categories={categories} />
-            <LoadMoreButton
-                onClick={handleLoadMore}
-                loading={loading}
-                hasMore={hasMore}
+            <RepoTable
+                repos={reposToDisplay}
+                categories={categories}
+                user={user}
+                bookmarkedIds={bookmarkedIds}
+                onToggleBookmark={toggleBookmark}
             />
+            {!showSavedOnly && (
+                <LoadMoreButton
+                    onClick={handleLoadMore}
+                    loading={loading}
+                    hasMore={hasMore}
+                />
+            )}
 
 
             {/* Footer */}

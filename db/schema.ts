@@ -31,9 +31,17 @@ export const users = pgTable("users", {
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 
+export const bookmarks = pgTable("bookmarks", {
+    id: serial("id").primaryKey(),
+    userId: integer("user_id").notNull(),
+    repoId: integer("repo_id").notNull(),
+    createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
+});
+
 export type Repo = typeof repos.$inferSelect;
 export type NewRepo = typeof repos.$inferInsert;
 export type Category = typeof categories.$inferSelect;
 export type Subscriber = typeof subscribers.$inferSelect;
 export type User = typeof users.$inferSelect;
 export type NewUser = typeof users.$inferInsert;
+export type Bookmark = typeof bookmarks.$inferSelect;

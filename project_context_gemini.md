@@ -8,7 +8,7 @@ This document serves as a comprehensive guide to the **REPO FOR THAT** project, 
 - **Project Name:** REPO FOR THAT
 - **Tagline:** "Built for the open source obsessed. Long live FOSS."
 - **Core Purpose:** A centralized, searchable, and categorized platform to discover high-quality open-source projects.
-- **Visual Style:** Pixel art, retro gaming aesthetic, featuring floating sprites and a high-contrast dark theme.
+- **Visual Style:** Pixel art, retro gaming aesthetic, featuring floating sprites, a high-contrast dark theme, and a 'pointer' (hand) cursor for interactive elements.
 
 ## 🛠️ 2. Tech Stack
 - **Framework:** Next.js 16 (App Router)

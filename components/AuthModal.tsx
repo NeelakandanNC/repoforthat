@@ -84,7 +84,8 @@ export default function AuthModal({ type: initialType, onClose, onSuccess }: Aut
                         border: "none",
                         fontSize: 24,
                         color: "var(--fg)",
-                        cursor: "crosshair",
+                        cursor: "pointer",
+
                     }}
                 >
                     [X]
@@ -146,7 +147,7 @@ export default function AuthModal({ type: initialType, onClose, onSuccess }: Aut
                         <>
                             ALREADY HAVE AN ACCOUNT?{" "}
                             <span
-                                style={{ textDecoration: "underline", cursor: "crosshair" }}
+                                style={{ textDecoration: "underline", cursor: "pointer" }}
                                 onClick={() => { setType("login"); setError(""); }}
                             >
                                 LOGIN
@@ -156,7 +157,7 @@ export default function AuthModal({ type: initialType, onClose, onSuccess }: Aut
                         <>
                             NEW HERE?{" "}
                             <span
-                                style={{ textDecoration: "underline", cursor: "crosshair" }}
+                                style={{ textDecoration: "underline", cursor: "pointer" }}
                                 onClick={() => { setType("signup"); setError(""); }}
                             >
                                 SIGNUP

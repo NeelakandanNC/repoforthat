@@ -101,7 +101,7 @@ export default function SubscribeBar() {
                                     border: "2px solid var(--bg)",
                                     padding: "8px 20px",
                                     fontSize: 18,
-                                    cursor: "crosshair",
+                                    cursor: "pointer",
                                     whiteSpace: "nowrap",
                                 }}
                             >
