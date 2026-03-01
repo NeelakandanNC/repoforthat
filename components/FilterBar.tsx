@@ -40,6 +40,40 @@ export default function FilterBar({
                 zIndex: 1,
             }}
         >
+            <style>
+                {`
+                    .filter-btn {
+                        background: var(--bg);
+                        color: var(--fg);
+                        border: 2px solid var(--fg);
+                        box-shadow: 3px 3px 0px var(--fg);
+                        padding: 6px 14px;
+                        font-size: 16;
+                        cursor: pointer;
+                        white-space: nowrap;
+                        display: flex;
+                        align-items: center;
+                        gap: 6;
+                        flex-shrink: 0;
+                        transition: none;
+                        text-transform: uppercase;
+                    }
+                    .filter-btn:hover {
+                        transform: translate(1px, 1px);
+                        box-shadow: 2px 2px 0px var(--fg);
+                    }
+                    .filter-btn:active {
+                        transform: translate(3px, 3px);
+                        box-shadow: none;
+                    }
+                    .filter-btn.active {
+                        background: var(--fg) !important;
+                        color: var(--bg) !important;
+                        box-shadow: none !important;
+                        transform: translate(3px, 3px) !important;
+                    }
+                `}
+            </style>
             <div
                 style={{
                     maxWidth: 1200,
@@ -59,21 +93,7 @@ export default function FilterBar({
                     {/* ALL button */}
                     <button
                         onClick={() => onCategoryChange(null)}
-                        style={{
-                            background: activeCategory === null ? "var(--fg)" : "var(--bg)",
-                            color: activeCategory === null ? "var(--bg)" : "var(--fg)",
-                            border: "2px solid var(--fg)",
-                            boxShadow: activeCategory === null ? "none" : "3px 3px 0px var(--fg)",
-                            transform: activeCategory === null ? "translate(3px, 3px)" : "none",
-                            padding: "6px 14px",
-                            fontSize: 16,
-                            cursor: "pointer",
-                            whiteSpace: "nowrap",
-                            display: "flex",
-                            alignItems: "center",
-                            gap: 6,
-                            flexShrink: 0,
-                        }}
+                        className={`filter-btn ${activeCategory === null ? "active" : ""}`}
                     >
                         ★ ALL
                     </button>
@@ -84,32 +104,10 @@ export default function FilterBar({
                             onClick={() =>
                                 onCategoryChange(activeCategory === cat.slug ? null : cat.slug)
                             }
-                            style={{
-                                background:
-                                    activeCategory === cat.slug ? "var(--fg)" : "var(--bg)",
-                                color:
-                                    activeCategory === cat.slug ? "var(--bg)" : "var(--fg)",
-                                border: "2px solid var(--fg)",
-                                boxShadow:
-                                    activeCategory === cat.slug
-                                        ? "none"
-                                        : "3px 3px 0px var(--fg)",
-                                transform:
-                                    activeCategory === cat.slug
-                                        ? "translate(3px, 3px)"
-                                        : "none",
-                                padding: "6px 14px",
-                                fontSize: 16,
-                                cursor: "pointer",
-                                whiteSpace: "nowrap",
-                                display: "flex",
-                                alignItems: "center",
-                                gap: 6,
-                                flexShrink: 0,
-                            }}
+                            className={`filter-btn ${activeCategory === cat.slug ? "active" : ""}`}
                         >
                             <CategoryIcon icon={cat.icon || "grid"} size={14} />
-                            {cat.label.toUpperCase()}
+                            {cat.label}
                         </button>
                     ))}
                 </div>

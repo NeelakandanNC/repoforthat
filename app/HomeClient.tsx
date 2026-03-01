@@ -29,28 +29,46 @@ export default function HomeClient({
     const [bookmarkedIds, setBookmarkedIds] = useState<Set<number>>(new Set());
     const [showSavedOnly, setShowSavedOnly] = useState(false);
 
-    // Fetch user and bookmarks on mount
+    // Fetch user session on mount
     useEffect(() => {
         fetch("/api/auth/me")
             .then(res => res.json())
             .then(data => {
                 if (data.user) {
                     setUser(data.user);
-                    // Fetch bookmarks for this user
-                    fetch("/api/bookmarks")
-                        .then(res => res.json())
-                        .then(bookmarkData => {
-                            if (bookmarkData.bookmarks) {
-                                setBookmarkedIds(new Set(bookmarkData.bookmarks.map((b: any) => b.repoId)));
-                            }
-                        });
                 }
             })
             .catch(() => {});
     }, []);
 
+    // Fetch bookmarks when user changes
+    useEffect(() => {
+        if (user) {
+            fetch("/api/bookmarks")
+                .then(res => res.json())
+                .then(bookmarkData => {
+                    if (bookmarkData.bookmarks) {
+                        setBookmarkedIds(new Set(bookmarkData.bookmarks.map((b: any) => b.repoId)));
+                    }
+                })
+                .catch(() => {});
+        } else {
+            setBookmarkedIds(new Set());
+            setShowSavedOnly(false);
+        }
+    }, [user]);
+
     const toggleBookmark = async (repoId: number) => {
-        if (!user) return; // Should not happen as UI will hide it
+        if (!user) return;
+
+        // Optimistic Update: Change UI immediately
+        const isCurrentlyBookmarked = bookmarkedIds.has(repoId);
+        setBookmarkedIds(prev => {
+            const next = new Set(prev);
+            if (!isCurrentlyBookmarked) next.add(repoId);
+            else next.delete(repoId);
+            return next;
+        });
 
         try {
             const res = await fetch("/api/bookmarks", {
@@ -59,21 +77,36 @@ export default function HomeClient({
                 body: JSON.stringify({ repoId }),
             });
             const data = await res.json();
-            if (data.success) {
-                setBookmarkedIds(prev => {
-                    const next = new Set(prev);
-                    if (data.action === "added") next.add(repoId);
-                    else next.delete(repoId);
-                    return next;
-                });
+            
+            // If server disagrees (shouldn't happen often), we could re-sync
+            if (!data.success) {
+                // Silently re-sync bookmarks from server to be sure
+                fetch("/api/bookmarks")
+                    .then(r => r.json())
+                    .then(d => {
+                        if (d.bookmarks) {
+                            setBookmarkedIds(new Set(d.bookmarks.map((b: any) => b.repoId)));
+                        }
+                    });
             }
         } catch (err) {
             console.error("Failed to toggle bookmark", err);
+            // Rollback UI state on network error
+            setBookmarkedIds(prev => {
+                const next = new Set(prev);
+                if (isCurrentlyBookmarked) next.add(repoId);
+                else next.delete(repoId);
+                return next;
+            });
         }
     };
 
     const handleToggleSaved = () => {
         setShowSavedOnly(!showSavedOnly);
+    };
+
+    const handleUserChange = (newUser: any) => {
+        setUser(newUser);
     };
 
     const fetchRepos = useCallback(
@@ -134,8 +167,7 @@ export default function HomeClient({
 
     return (
         <>
-
-            <Hero />
+            <Hero user={user} onUserChange={handleUserChange} />
             <FilterBar
                 categories={categories}
                 activeCategory={activeCategory}
@@ -160,7 +192,6 @@ export default function HomeClient({
                     hasMore={hasMore}
                 />
             )}
-
 
             {/* Footer */}
             <footer

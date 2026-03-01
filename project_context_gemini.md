@@ -21,69 +21,54 @@ This document serves as a comprehensive guide to the **REPO FOR THAT** project, 
 ## 🏛️ 3. Architecture Overview
 - **Server-Side Rendering (SSR):** Initial data for repositories (first 25) and all categories are fetched in `app/page.tsx` for performance and SEO.
 - **Client-Side Interactivity:** `app/HomeClient.tsx` manages state for:
-  - Repository filtering (by category)
-  - Real-time search
+  - User authentication session
+  - Bookmarks (saved repositories)
+  - Repository filtering (by category, search, or SAVED toggle)
   - Pagination (Infinite "Load More")
-  - UI state (loading, error handling)
 - **API-Driven:** Client-side updates are powered by dedicated API routes in `app/api/`.
 
 ## 📊 4. Data Model (Drizzle Schema)
 Defined in `db/schema.ts`:
-- **`repos`**:
-  - `id` (serial, PK)
-  - `name` (text, extracted from URL)
-  - `url` (text, unique)
-  - `category` (text, slug)
-  - `stars` (integer, default 0)
-  - `description` (text)
-  - `createdAt` (timestamp)
-- **`categories`**:
-  - `id` (serial, PK)
-  - `slug` (text, unique)
-  - `label` (text)
-  - `icon` (text, SVG path or component reference)
-- **`subscribers`**:
-  - `id` (serial, PK)
-  - `email` (text, unique)
-  - `createdAt` (timestamp)
+- **`repos`**: ID, name, url (unique), category, stars, description, createdAt.
+- **`categories`**: ID, slug (unique), label, icon.
+- **`subscribers`**: ID, email (unique), createdAt.
+- **`users`**: ID, email (unique), password (hashed), username (unique), createdAt.
+- **`bookmarks`**: ID, userId, repoId, createdAt.
 
 ## 🌐 5. API Endpoints
 ### Public
-- `GET /api/repos`: Fetches paginated repositories with optional `category` and `search` filters.
-- `GET /api/categories`: Fetches all available categories.
-- `POST /api/subscribe`: Adds a new email to the subscriber list.
+- `GET /api/repos`: Fetches paginated repositories with filters.
+- `GET /api/categories`: Fetches all categories.
+- `POST /api/subscribe`: Email newsletter signup.
 
-### Admin/Internal
-- `POST /api/admin/repos`: Adds a new repository to the database. Requires `x-admin-secret` header.
+### Authentication
+- `POST /api/auth/signup`: Registers a new user.
+- `POST /api/auth/login`: Authenticates user.
+- `POST /api/auth/logout`: Clears session.
+- `GET /api/auth/me`: Checks current session.
+
+### Bookmarks
+- `GET /api/bookmarks`: Fetches user's saved repos.
+- `POST /api/bookmarks`: Toggles bookmark for a repo.
 
 ## 🎨 6. UI/UX & Components
 Located in `components/`:
-- **`Hero.tsx`**: Title and main header with retro styling.
-- **`FilterBar.tsx`**: Category selection and search input.
-- **`RepoTable.tsx`**: Displays repositories in a responsive layout (cards on mobile, grid/table-like on desktop).
-- **`FloatingSprites.tsx`**: Interactive, floating pixel-art icons that drift across the background.
-- **`PixelDivider.tsx`**: Custom retro-styled horizontal divider.
-- **`SubscribeBar.tsx`**: Email signup component with pixel art accents.
-- **`CategoryIcon.tsx`**: Map of category slugs to their respective retro-style SVG icons.
+- **`Hero.tsx`**: Header with retro title, theme toggle, and Auth buttons (Login/Signup/Logout).
+- **`AuthModal.tsx`**: Pixel-art modal for user authentication.
+- **`FilterBar.tsx`**: Category badges, search bar, and **[SAVED]** toggle button.
+- **`RepoTable.tsx`**: Directory table with **SAVED** star column for logged-in users.
+- **`FloatingSprites.tsx`**: Animated CSS pixel-art decorations.
+- **`PixelDivider.tsx`**: Custom retro zigzag dividers.
 
 ## ⚙️ 7. Key Workflows
-1. **Initial Load:** SSR fetches categories and the first page of repos.
-2. **Filtering/Search:** Users select a category or type in the search bar. `HomeClient` triggers a `fetch` call to `/api/repos` with query params, resetting the page count.
-3. **Pagination:** "Load More" appends the next page of results to the current list.
-4. **Email Signup:** Captures user email and stores it in the `subscribers` table via `/api/subscribe`.
+1. **Initial Load:** SSR fetches initial data. `HomeClient` checks session and bookmarks via API.
+2. **Authentication:** JWT-based auth using secure cookies (`auth_token`).
+3. **Filtering:** Client-side filtering for "SAVED" items; server-side for categories/search.
+4. **Bookmarking:** Instant UI updates when toggling stars.
 
-## 📁 8. Project Structure
-- `app/`: Next.js App Router (pages, API routes, layout).
-- `components/`: Modular React components.
-- `db/`: Database configuration, Drizzle schema, and seed scripts.
-- `lib/`: Utility functions (e.g., `extractRepoName`).
-- `public/`: Static assets (icons, SVGs).
-
-## 📝 9. Conventions & Development Notes
-- **Tailwind v4:** Uses CSS variables (`--fg`, `--bg`, etc.) defined in `app/globals.css`.
-- **Drizzle:** Always use `returning()` for inserts if IDs are needed immediately.
-- **Error Handling:** Client-side fetches use `try/catch` and update a loading state. API routes return standard JSON error responses.
-- **Dynamic Routes:** `app/page.tsx` is marked `force-dynamic` to ensure fresh data.
+## 📝 9. Conventions
+- **Pixel Aesthetic:** Zero border-radius, `steps()` animations, bicolour palette.
+- **Security:** Hashed passwords (bcrypt), secure cookies, server-side session validation.
 
 ---
-*Created on: 2026-03-01 by Gemini CLI*
+*Last Updated: 2026-03-01 by Gemini CLI*

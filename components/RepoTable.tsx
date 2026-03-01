@@ -19,8 +19,6 @@ export default function RepoTable({
     bookmarkedIds,
     onToggleBookmark,
 }: RepoTableProps) {
-    const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-
     const getCategoryIcon = (categorySlug: string): string => {
         const cat = categories.find((c) => c.slug === categorySlug);
         return cat?.icon || "grid";
@@ -43,6 +41,35 @@ export default function RepoTable({
 
     return (
         <section style={{ padding: "0 20px", position: "relative", zIndex: 1 }}>
+            <style>
+                {`
+                    .repo-row {
+                        background: transparent;
+                        color: var(--fg);
+                        border-bottom: 1px solid var(--fg);
+                        cursor: pointer;
+                        transition: none;
+                    }
+                    .repo-row:hover {
+                        background: var(--fg) !important;
+                        color: var(--bg) !important;
+                    }
+                    .repo-row:hover a {
+                        color: inherit !important;
+                        text-decoration: underline !important;
+                    }
+                    .repo-row:hover .category-badge {
+                        border-color: var(--bg) !important;
+                    }
+                    .repo-row .arrow {
+                        display: none;
+                        margin-right: 4px;
+                    }
+                    .repo-row:hover .arrow {
+                        display: inline;
+                    }
+                `}
+            </style>
             <div
                 style={{
                     maxWidth: 1200,
@@ -75,23 +102,14 @@ export default function RepoTable({
                     </thead>
                     <tbody>
                         {repos.map((repo, idx) => {
-                            const isHovered = hoveredRow === repo.id;
                             return (
                                 <tr
                                     key={repo.id}
-                                    onMouseEnter={() => setHoveredRow(repo.id)}
-                                    onMouseLeave={() => setHoveredRow(null)}
-                                    style={{
-                                        background: isHovered ? "var(--fg)" : "transparent",
-                                        color: isHovered ? "var(--bg)" : "var(--fg)",
-                                        borderBottom: "1px solid var(--fg)",
-                                        cursor: "pointer",
-                                        transition: "none",
-                                    }}
+                                    className="repo-row"
                                 >
                                     <td style={tdStyle}>
                                         <span style={{ display: "flex", alignItems: "center", gap: 4 }}>
-                                            {isHovered && <span>▶</span>}
+                                            <span className="arrow">▶</span>
                                             {idx + 1}
                                         </span>
                                     </td>
@@ -108,7 +126,7 @@ export default function RepoTable({
                                             rel="noopener noreferrer"
                                             style={{
                                                 color: "inherit",
-                                                textDecoration: isHovered ? "underline" : "none",
+                                                textDecoration: "none",
                                                 fontSize: 20,
                                             }}
                                         >
@@ -130,8 +148,9 @@ export default function RepoTable({
                                     </td>
                                     <td style={{ ...tdStyle, textAlign: "center" }}>
                                         <span
+                                            className="category-badge"
                                             style={{
-                                                border: isHovered ? "1px solid var(--bg)" : "1px solid var(--fg)",
+                                                border: "1px solid var(--fg)",
                                                 padding: "2px 8px",
                                                 fontSize: 14,
                                                 whiteSpace: "nowrap",

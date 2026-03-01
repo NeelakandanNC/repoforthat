@@ -3,13 +3,17 @@
 import { useEffect, useState, useRef } from "react";
 import AuthModal from "./AuthModal";
 
-export default function Hero() {
+interface HeroProps {
+    user: any;
+    onUserChange: (user: any) => void;
+}
+
+export default function Hero({ user, onUserChange }: HeroProps) {
     const [theme, setTheme] = useState<"light" | "dark">("light");
     const [glitch, setGlitch] = useState(true);
     const titleRef = useRef<HTMLHeadingElement>(null);
     const [email, setEmail] = useState("");
     const [subStatus, setSubStatus] = useState<"idle" | "loading" | "success" | "duplicate">("idle");
-    const [user, setUser] = useState<any>(null);
     const [showAuth, setShowAuth] = useState<"login" | "signup" | null>(null);
 
     useEffect(() => {
@@ -22,21 +26,13 @@ export default function Hero() {
         // Glitch animation on mount
         const timer = setTimeout(() => setGlitch(false), 300);
 
-        // Check user session
-        fetch("/api/auth/me")
-            .then(res => res.json())
-            .then(data => {
-                if (data.user) setUser(data.user);
-            })
-            .catch(() => {});
-
         return () => clearTimeout(timer);
     }, []);
 
     const handleLogout = async () => {
         try {
             await fetch("/api/auth/logout", { method: "POST" });
-            setUser(null);
+            onUserChange(null);
         } catch (err) {
             console.error("Logout failed", err);
         }
@@ -321,7 +317,7 @@ export default function Hero() {
                 <AuthModal
                     type={showAuth}
                     onClose={() => setShowAuth(null)}
-                    onSuccess={(userData) => setUser(userData)}
+                    onSuccess={(userData) => onUserChange(userData)}
                 />
             )}
         </section>
