@@ -158,63 +158,20 @@ export default function Hero({ user, onUserChange }: HeroProps) {
                     </button>
                 </div>
 
-                {/* Title + Versily Badge */}
-                <div
+                {/* Title */}
+                <h1
+                    ref={titleRef}
                     style={{
-                        display: "flex",
-                        alignItems: "center",
-                        gap: 16,
-                        flexWrap: "wrap",
+                        fontSize: "clamp(40px, 7vw, 72px)",
+                        color: "var(--bg)",
+                        lineHeight: 1,
+                        margin: 0,
+                        letterSpacing: "4px",
+                        animation: glitch ? "pixel-glitch 0.05s steps(4) 6" : "none",
                     }}
                 >
-                    <h1
-                        ref={titleRef}
-                        style={{
-                            fontSize: "clamp(40px, 7vw, 72px)",
-                            color: "var(--bg)",
-                            lineHeight: 1,
-                            margin: 0,
-                            letterSpacing: "4px",
-                            animation: glitch ? "pixel-glitch 0.05s steps(4) 6" : "none",
-                        }}
-                    >
-                        REPO FOR THAT
-                    </h1>
-                    <a
-                        href="https://versily.com/products/repoforthat?utm_source=versily&utm_medium=badge&utm_campaign=featured"
-                        target="_blank"
-                        rel="noopener"
-                        style={{ display: "flex", alignItems: "center" }}
-                    >
-                        <img
-                            src={`https://amujqvxlqnrslaqiozkw.supabase.co/functions/v1/badge-svg?theme=${theme}&width=210&height=45&id=ef3e8a08-a435-4ff3-8b39-0c4639ecea5f`}
-                            width="210"
-                            height="45"
-                            alt="Featured on Versily - repo for that"
-                            loading="lazy"
-                            decoding="async"
-                            style={{
-                                height: "auto",
-                                aspectRatio: "210/45",
-                            }}
-                        />
-                    </a>
-                    <a
-                        href="https://acidtools.com"
-                        target="_blank"
-                        rel="noopener"
-                        style={{ display: "flex", alignItems: "center" }}
-                    >
-                        <img
-                            src="https://acidtools.com/assets/images/badge.png"
-                            height="54"
-                            alt="Acid Tools"
-                            loading="lazy"
-                            decoding="async"
-                            style={{ height: 45 }}
-                        />
-                    </a>
-                </div>
+                    REPO FOR THAT
+                </h1>
 
                 {/* Subtitle + Subscribe — same line */}
                 <div
