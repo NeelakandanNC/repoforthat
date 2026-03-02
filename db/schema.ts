@@ -7,6 +7,7 @@ export const repos = pgTable("repos", {
     category: text("category").notNull(),
     stars: integer("stars").notNull().default(0),
     description: text("description"),
+    type: text("type").notNull().default("foss"),
     createdAt: timestamp("created_at", { withTimezone: true }).defaultNow(),
 });
 

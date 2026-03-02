@@ -9,12 +9,16 @@ export async function GET(request: NextRequest) {
     const limit = parseInt(searchParams.get("limit") || "25");
     const category = searchParams.get("category");
     const search = searchParams.get("search");
+    const type = searchParams.get("type");
 
     const offset = (page - 1) * limit;
 
     const conditions = [];
     if (category) {
         conditions.push(eq(repos.category, category));
+    }
+    if (type) {
+        conditions.push(eq(repos.type, type));
     }
     if (search) {
         conditions.push(

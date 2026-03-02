@@ -3,26 +3,29 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { Repo, Category } from "@/db/schema";
 import Hero from "@/components/Hero";
-
-import FilterBar from "@/components/FilterBar";
-import RepoTable from "@/components/RepoTable";
-import LoadMoreButton from "@/components/LoadMoreButton";
+import TabBar from "@/components/TabBar";
+import AppGrid from "@/components/AppGrid";
 
 interface HomeClientProps {
     initialRepos: Repo[];
     categories: Category[];
     totalRepos: number;
+    fossCount: number;
+    agentCount: number;
 }
 
 export default function HomeClient({
     initialRepos,
     categories,
     totalRepos,
+    fossCount,
+    agentCount,
 }: HomeClientProps) {
     const [reposList, setReposList] = useState<Repo[]>(initialRepos);
     const [page, setPage] = useState(1);
-    const [hasMore, setHasMore] = useState(initialRepos.length < totalRepos);
+    const [hasMore, setHasMore] = useState(initialRepos.length < fossCount);
     const [loading, setLoading] = useState(false);
+    const [activeTab, setActiveTab] = useState<"foss" | "agent">("foss");
     const [activeCategory, setActiveCategory] = useState<string | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [user, setUser] = useState<any>(null);
@@ -38,7 +41,7 @@ export default function HomeClient({
                     setUser(data.user);
                 }
             })
-            .catch(() => {});
+            .catch(() => { });
     }, []);
 
     // Fetch bookmarks when user changes
@@ -51,7 +54,7 @@ export default function HomeClient({
                         setBookmarkedIds(new Set(bookmarkData.bookmarks.map((b: any) => b.repoId)));
                     }
                 })
-                .catch(() => {});
+                .catch(() => { });
         } else {
             setBookmarkedIds(new Set());
             setShowSavedOnly(false);
@@ -61,7 +64,6 @@ export default function HomeClient({
     const toggleBookmark = async (repoId: number) => {
         if (!user) return;
 
-        // Optimistic Update: Change UI immediately
         const isCurrentlyBookmarked = bookmarkedIds.has(repoId);
         setBookmarkedIds(prev => {
             const next = new Set(prev);
@@ -77,10 +79,8 @@ export default function HomeClient({
                 body: JSON.stringify({ repoId }),
             });
             const data = await res.json();
-            
-            // If server disagrees (shouldn't happen often), we could re-sync
+
             if (!data.success) {
-                // Silently re-sync bookmarks from server to be sure
                 fetch("/api/bookmarks")
                     .then(r => r.json())
                     .then(d => {
@@ -91,7 +91,6 @@ export default function HomeClient({
             }
         } catch (err) {
             console.error("Failed to toggle bookmark", err);
-            // Rollback UI state on network error
             setBookmarkedIds(prev => {
                 const next = new Set(prev);
                 if (isCurrentlyBookmarked) next.add(repoId);
@@ -114,6 +113,7 @@ export default function HomeClient({
             pageNum: number,
             category: string | null,
             search: string,
+            tab: "foss" | "agent",
             append: boolean
         ) => {
             setLoading(true);
@@ -121,6 +121,7 @@ export default function HomeClient({
                 const params = new URLSearchParams();
                 params.set("page", pageNum.toString());
                 params.set("limit", "25");
+                params.set("type", tab);
                 if (category) params.set("category", category);
                 if (search) params.set("search", search);
 
@@ -142,22 +143,31 @@ export default function HomeClient({
         []
     );
 
+    const handleTabChange = (tab: "foss" | "agent") => {
+        setActiveTab(tab);
+        setActiveCategory(null);
+        setSearchQuery("");
+        setPage(1);
+        setShowSavedOnly(false);
+        fetchRepos(1, null, "", tab, false);
+    };
+
     const handleLoadMore = () => {
         const nextPage = page + 1;
         setPage(nextPage);
-        fetchRepos(nextPage, activeCategory, searchQuery, true);
+        fetchRepos(nextPage, activeCategory, searchQuery, activeTab, true);
     };
 
     const handleCategoryChange = (slug: string | null) => {
         setActiveCategory(slug);
         setPage(1);
-        fetchRepos(1, slug, searchQuery, false);
+        fetchRepos(1, slug, searchQuery, activeTab, false);
     };
 
     const handleSearch = (query: string) => {
         setSearchQuery(query);
         setPage(1);
-        fetchRepos(1, activeCategory, query, false);
+        fetchRepos(1, activeCategory, query, activeTab, false);
     };
 
     const reposToDisplay = useMemo(() => {
@@ -165,33 +175,42 @@ export default function HomeClient({
         return reposList.filter(repo => bookmarkedIds.has(repo.id));
     }, [reposList, showSavedOnly, bookmarkedIds]);
 
+    // Filter categories relevant to the active tab
+    const tabCategories = useMemo(() => {
+        const agentCategorySlugs = new Set(["ai-agents", "llm-wrappers", "agentic-ai", "claude-code"]);
+        if (activeTab === "agent") {
+            // Show agent-specific categories + any category that has agent repos
+            return categories;
+        }
+        return categories.filter(c => !agentCategorySlugs.has(c.slug));
+    }, [categories, activeTab]);
+
     return (
         <>
             <Hero user={user} onUserChange={handleUserChange} />
-            <FilterBar
-                categories={categories}
-                activeCategory={activeCategory}
-                onCategoryChange={handleCategoryChange}
-                onSearch={handleSearch}
-                user={user}
-                showSavedOnly={showSavedOnly}
-                onToggleSaved={handleToggleSaved}
+
+            <TabBar
+                activeTab={activeTab}
+                onTabChange={handleTabChange}
+                fossCount={fossCount}
+                agentCount={agentCount}
             />
 
-            <RepoTable
+            <AppGrid
                 repos={reposToDisplay}
-                categories={categories}
+                categories={tabCategories}
                 user={user}
                 bookmarkedIds={bookmarkedIds}
                 onToggleBookmark={toggleBookmark}
+                activeCategory={activeCategory}
+                onCategoryChange={handleCategoryChange}
+                onSearch={handleSearch}
+                showSavedOnly={showSavedOnly}
+                onToggleSaved={handleToggleSaved}
+                loading={loading}
+                hasMore={!showSavedOnly && hasMore}
+                onLoadMore={handleLoadMore}
             />
-            {!showSavedOnly && (
-                <LoadMoreButton
-                    onClick={handleLoadMore}
-                    loading={loading}
-                    hasMore={hasMore}
-                />
-            )}
 
             {/* Footer */}
             <footer
@@ -203,7 +222,7 @@ export default function HomeClient({
                 }}
             >
                 <p style={{ fontSize: 24, margin: 0, color: "var(--fg)" }}>
-                    REPO FOR THAT — BUILT FOR THE OPEN SOURCE OBSESSED
+                    REPO FOR THAT — FIND. INSTALL. BUILD.
                 </p>
                 <p
                     style={{
@@ -213,7 +232,7 @@ export default function HomeClient({
                         opacity: 0.6,
                     }}
                 >
-                    LONG LIVE FOSS
+                    FOSS + AGENTS & SKILLS — ALL IN ONE PLACE
                 </p>
             </footer>
         </>
